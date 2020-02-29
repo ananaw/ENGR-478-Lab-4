@@ -3,7 +3,7 @@
 #include "inc/tm4c123gh6pm.h"
 #include "driverlib/sysctl.h"
 
-#define 	GREEN_MASK 		0x08
+#define 	GREEN_MASK 		0x08  		// Define green_mask as PF3
 //*****************************************************************************
 //
 //!
@@ -31,8 +31,8 @@ PortFunctionInit(void)
     // Enable the GPIO pin for the red LED (PF1).  Set the direction as output, and
     // enable the GPIO pin for digital function.
     //
-    GPIO_PORTF_DIR_R |= 0x08;
-    GPIO_PORTF_DEN_R |= 0x08;
+    GPIO_PORTF_DIR_R |= 0x08;	// enable GPIO pin for green LED (PF3), set direction as output
+    GPIO_PORTF_DEN_R |= 0x08;	// enable pin for digital function
 
 }
 
@@ -44,7 +44,7 @@ int main(void)
 		PortFunctionInit();
 	
     // Turn on the LED.
-    GPIO_PORTF_DATA_R |= 0x08;
+    GPIO_PORTF_DATA_R |= 0x08; 		// Green
 
     
     //
@@ -53,7 +53,7 @@ int main(void)
     while(1)
     {
         // Delay for a bit.
-				SysCtlDelay(10000000);	
+				SysCtlDelay(10000000);	 	// Slow blinking by five times
 
         // Toggle the LED.
         GPIO_PORTF_DATA_R ^=GREEN_MASK;
