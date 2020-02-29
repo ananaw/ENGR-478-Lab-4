@@ -16,7 +16,7 @@ void
 PortFunctionInit(void)
 {
 
-		volatile uint32_t ui32Loop;   
+		volatile uint32_t ui32Loop;   // value could change anytime
 	
 	// Enable the clock of the GPIO port that is used for the on-board LED and switch.
     SYSCTL_RCGC2_R = SYSCTL_RCGC2_GPIOF;
@@ -30,13 +30,15 @@ PortFunctionInit(void)
     GPIO_PORTF_LOCK_R = 0x4C4F434B;   	// unlock port F, address is the key
     GPIO_PORTF_CR_R |= 0x01;           	// allow changes to PF0, bitwise OR assignment
 
-    GPIO_PORTF_AMSEL_R = 0x00;		// clear AMSEL (analog mode selection)
-    GPIO_PORTF_PCTL_R = 0x00000000	// PCTL GPIO on PF7-0
+    GPIO_PORTF_AMSEL_R &= ~0x00;		// clear AMSEL (analog mode selection)
+    GPIO_PORTF_PCTL_R &= ~0x00000000;	// PCTL GPIO on PF7-0, select GPIO, clear all
     // Set direction of PF1(0010) as output (PF1-red LED)		// Set the direction of PF2 (x04 blue LED) as output 		
     GPIO_PORTF_DIR_R |= 0x02;		// DIR_R specifies input/output of port with 0/1 respectively. 
 	
     // Set the direction of PF0 (SW2) as input by clearing the bit
     GPIO_PORTF_DIR_R &= ~0x01;		// bitwise AND assignment to complement of 01
+
+    GPIO_PORTF_AFSEL_R = 0x00;
 	
     // Enable only(for PF1 & PF0, use x03)		// Enable both PF2 and PF0 for digital function.(05) 
     GPIO_PORTF_DEN_R |= 0x03;
