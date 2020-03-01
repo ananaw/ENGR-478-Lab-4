@@ -26,7 +26,10 @@ PortFunctionInit(void)
     // Do a dummy read to insert a few cycles after enabling the peripheral.
     //
     ui32Loop = SYSCTL_RCGC2_R;
-
+    GPIO_PORTF_AMSEL_R &= ~0x00;				// clear AMSEL (disable analog mode selection)
+    GPIO_PORTF_PCTL_R &= ~0x00000000;		// PCTL GPIO on PF7-0, select GPIO, clear all
+    GPIO_PORTF_AFSEL_R &= ~0x00; 				// clear AFSEL bits to 0 to select regular I/O
+	
     //
     // Enable the GPIO pin for the red LED (PF1).  Set the direction as output, and
     // enable the GPIO pin for digital function.
