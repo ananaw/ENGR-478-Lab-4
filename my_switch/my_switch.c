@@ -30,14 +30,14 @@ PortFunctionInit(void)
 		GPIO_PORTF_LOCK_R = 0x4C4F434B;   
 		GPIO_PORTF_CR_R |= 0x01;           // allow changes to PF0
 
-    // Set the direction of PF2 (blue LED) as output
-    GPIO_PORTF_DIR_R |= 0x04;
+    // Set the direction of PF1 (blue LED) as output
+    GPIO_PORTF_DIR_R |= 0x02;
 	
 		// Set the direction of PF0 (SW2) as input by clearing the bit
     GPIO_PORTF_DIR_R &= ~0x01;
 	
-    // Enable both PF2 and PF0 for digital function.
-    GPIO_PORTF_DEN_R |= 0x05;
+    // Enable both PF1 and PF0 for digital function.
+    GPIO_PORTF_DEN_R |= 0x03;
 	
 		//Enable pull-up on PF0
 		GPIO_PORTF_PUR_R |= 0x01; 
@@ -50,7 +50,7 @@ int main(void)
 	
 		//initialize the GPIO ports	
 		PortFunctionInit();
-	
+		
     //
     // Loop forever.
     //
@@ -59,13 +59,13 @@ int main(void)
 
         if((GPIO_PORTF_DATA_R&0x01)==0x00) //SW2 is pressed
 				{
-						// Turn on the LED.
-						GPIO_PORTF_DATA_R |= 0x04;
+						// Turn off the LED.
+						GPIO_PORTF_DATA_R &= ~0x02;
 				}
 				else
 				{
-						// Turn off the LED.
-						GPIO_PORTF_DATA_R &= ~0x04;
+						// Turn on the LED.
+						GPIO_PORTF_DATA_R |= 0x02;
 				}
     }
 }
