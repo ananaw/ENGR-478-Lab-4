@@ -56,8 +56,8 @@ int main(void)
     while(1)
     {
         // Delay for a bit.
-				SysCtlDelay(10000000);	 	// Slow blinking by five times
-
+				SysCtlDelay(10000000);	 	// Slow blinking by five times, 10000000 loops 
+								// each loop is 3 CPU cycles 10M*3/16M = 1.875 sec
         // Toggle the LED.
         GPIO_PORTF_DATA_R ^=GREEN_MASK;
     }
